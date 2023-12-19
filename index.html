@@ -8,9 +8,36 @@
 <body>
 <canvas width="512" height="512"></canvas>
 <script type="module">
-    const canvas = document.querySelector("canvas");
+    if (!navigator.gpu) {
+        throw new Error("WebGPU not supported on this browser.");
+    }
 
-    // Your WebGPU code will begin here!
+    const adapter = await navigator.gpu.requestAdapter();
+    if (!adapter) {
+        throw new Error("No appropriate GPUAdapter found.");
+    }
+
+    const device = await adapter.requestDevice();
+
+    const canvas = document.querySelector("canvas");
+    const context = canvas.getContext("webgpu");
+    const format = navigator.gpu.getPreferredCanvasFormat();
+    context.configure({ device, format });
+
+    const encoder = device.createCommandEncoder();
+
+    const currentContent = context.getCurrentTexture();
+    const pass = encoder.beginRenderPass({
+        colorAttachments: [{
+            view: currentContent.createView(),
+            loadOp: "clear",
+            clearValue: { r: 0, g: 0.3, b: 0, a: 1 },
+            storeOp: "store",
+        }]
+    });
+    pass.end();
+
+    device.queue.submit([ encoder.finish() ]);
 </script>
 </body>
 </html>
