@@ -27,7 +27,7 @@ diagonalFillCellsArray();
 device.queue.writeBuffer(cellStateStorage[1], /*bufferOffset=*/0, cellStateArray);
 
 
-const cellShaderModule = await getShaderModule(device, 'shader.wgsl');
+const cellShaderModule = await getShaderModule(device, 'drawShader.wgsl');
 
 const vertexBufferLayout = {
     arrayStride: 8,
