@@ -19,7 +19,12 @@ const loadShader = async (url) => {
     return response.text();
 }
 
-export const getShaderModule = async (device, shaderFile) => {
-    const shaderCode = await loadShader(shaderFile);
+export const getDrawShaderModule = async (device) => {
+    const shaderCode = await loadShader('drawShader.wgsl');
     return device.createShaderModule({ label: "Cell shader", code: shaderCode });
+}
+
+export const getSimulationShaderModule = async (device) => {
+    const shaderCode = await loadShader('simulationShader.wgsl');
+    return device.createShaderModule({ label: "Game of Life simulation shader", code: shaderCode });
 }
