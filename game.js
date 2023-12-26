@@ -31,6 +31,9 @@ export const createUniformBuffer = (device) => {
 }
 
 const cellStateArray = new Uint32Array(GRID_SIZE * GRID_SIZE);
+for (let i = 0; i < cellStateArray.length; ++i) {
+    cellStateArray[i] = Math.random() > 0.6 ? 1 : 0;
+}
 export const createCellStateStorageBuffer = (device) => {
     const cellStateStorage = [
         device.createBuffer({
