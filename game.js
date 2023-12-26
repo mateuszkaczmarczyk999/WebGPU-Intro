@@ -1,13 +1,14 @@
 export const GRID_SIZE = 32;
+export const WORKGROUP_SIZE = 8;
 
 const squareVertices = new Float32Array([
-    //   X,    Y,
+//   X,    Y,
     -0.8, -0.8, // Triangle 1
-    0.8, -0.8,
-    0.8,  0.8,
+     0.8, -0.8,
+     0.8,  0.8,
 
     -0.8, -0.8, // Triangle 2
-    0.8,  0.8,
+     0.8,  0.8,
     -0.8,  0.8,
 ]);
 export const createVertexBuffer = (device) => {
