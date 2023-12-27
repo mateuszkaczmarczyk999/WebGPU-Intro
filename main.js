@@ -10,21 +10,22 @@ import {
 
 const {
     device,
+    queue,
     format,
     context
 } = await initialize();
 
 const { vertexBuffer, squareVertices } = createVertexBuffer(device);
-device.queue.writeBuffer(vertexBuffer, /*bufferOffset=*/0, squareVertices);
+queue.writeBuffer(vertexBuffer, /*bufferOffset=*/0, squareVertices);
 
 const { uniformBuffer, uniformArray } = createUniformBuffer(device);
-device.queue.writeBuffer(uniformBuffer, /*bufferOffset=*/0, uniformArray);
+queue.writeBuffer(uniformBuffer, /*bufferOffset=*/0, uniformArray);
 
 const { cellStateStorage, cellStateArray } = createCellStateStorageBuffer(device);
 stripeFillCellsArray();
-device.queue.writeBuffer(cellStateStorage[0], /*bufferOffset=*/0, cellStateArray);
+queue.writeBuffer(cellStateStorage[0], /*bufferOffset=*/0, cellStateArray);
 diagonalFillCellsArray();
-device.queue.writeBuffer(cellStateStorage[1], /*bufferOffset=*/0, cellStateArray);
+queue.writeBuffer(cellStateStorage[1], /*bufferOffset=*/0, cellStateArray);
 
 const cellShaderModule = await getDrawShaderModule(device);
 const simulationShaderModule = await getSimulationShaderModule(device);
@@ -149,7 +150,7 @@ const updateGrid = () => {
     pass.draw(squareVertices.length / 2, GRID_SIZE * GRID_SIZE);
 
     pass.end();
-    device.queue.submit([ encoder.finish() ]);
+    queue.submit([ encoder.finish() ]);
 }
 
 const UPDATE_INTERVAL = 200;
